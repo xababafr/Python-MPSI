@@ -7,12 +7,14 @@ Montagne =[ " |...... ",
 			" |****.. ",
 			" |*****. ",
 			" |****** " ]
+
 # la matrice de la Montagne
 # les | representent le mur
 # les * representent les roches
 # les . representent du vide
 
-def get_element(ligne,colonne):
+def element(ligne,colonne):
+
 	""" la fonction qui renvoi le contenu de la matrice à
 	    la ligne et la colonne souhaitee. On suppose que
 	    le mur est la colonne numero 1 et que la premiere
@@ -34,5 +36,17 @@ def get_element(ligne,colonne):
 			return 2
 		else # ( si content == " " )
 			return 3
+
+def modifier_element(ligne,colonne,contenu):
+
+	""" remplace l'element de la matrice specifie par la
+		nouvelle valeur passee en argument. """
+
+
+
+
+
+
+
 
 
