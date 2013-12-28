@@ -1,5 +1,6 @@
 from math import *
 from random import *
+import time
 
 # que je suis bete ! cette structure correspondrait 
 #bien mieux ! il faut tout reprendre...
@@ -90,28 +91,70 @@ def effondrement(rang):
 
 	global compteur
 
+def affichage(Montagne):
+
+	""" fonction qui retourne l'aspect visuel de la montagne
+		passee en parametre. """
+
+	affichage =  '\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n'
+	#affichage += '\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n'
+	#affichage += '\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n'
+
+	# 1) on remplace les '!' par des -1
+	for i in range(len(Montagne)):
+		if Montagne[i] == '!':
+			Montagne[i] = -1
+
+	# maintenant la liste n'a que des nombres/chiffres
+
+	# 2) puis on parcours du plus grand element au plus petit
+	maxi = max(Montagne)
+	for i in reversed(range(maxi+1)):
+		for j in Montagne :
+			if j > i :
+				affichage += ' *'
+			else :
+				affichage += '  '
+		affichage += '\n'
+	for k in Montagne:
+		if k == -1:
+			affichage += ' _'
+		else :
+			affichage += '  '
+
+	return affichage
+
+#### TEST DE AFFICHAGE() ####
+
+#print(affichage([ 8 , 5 , 4 , 3 , 2 , 1 , '!' ]))
+#print(affichage([5,2,'!']))
+#print(affichage(['!', 2, 8, 2, '!']))
+
+#for i in reversed(range(8)):
+	#print(i)
+
 
 #### TEST DE CHOIX() ####
 
-Montagne = [5,2,'!']
-print(Montagne)
-print(choix(0,Montagne))
+# Montagne = [5,2,'!']
+# print(Montagne)
+# print(choix(0,Montagne))
 
-Montagne = [3,4,'!']
-print(Montagne)
-print(choix(1,Montagne))
+# Montagne = [3,4,'!']
+# print(Montagne)
+# print(choix(1,Montagne))
 
-Montagne = [2, 8, 3, '!']
-print(Montagne)
-print(choix(1,Montagne))
+# Montagne = [2, 8, 3, '!']
+# print(Montagne)
+# print(choix(1,Montagne))
 
-Montagne = ['!', 2, 8, 2, '!']
-print(Montagne)
-print(choix(2,Montagne))
+# Montagne = ['!', 2, 8, 2, '!']
+# print(Montagne)
+# print(choix(2,Montagne))
 
-Montagne = ['!', 8, '!']
-print(Montagne)
-print(choix(1,Montagne))
+# Montagne = ['!', 8, '!']
+# print(Montagne)
+# print(choix(1,Montagne))
 
 #print("colonne instable (1) : ",colonne_instable())
 # effondrement(0)
