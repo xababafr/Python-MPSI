@@ -36,22 +36,27 @@ def colonne_instable():
 			return i-1 # dans ce cas celle d'avant est instable
 	return False # sinon on retourne False
 
-def effondrement(rang):
+def choix(rang,montagne):
 
-	""" effectue l'effondrement de la colonne dont le numero
-		est specifie en parametre. Si le cube atteint un '!',
-		il est ejecte et comptabilise tel quel. """
+	""" fonction qui a une colonne instables donnee, retourne l'indice
+		de la colonne qui doit gagner deux unites (celle de gauche ou
+		celle de droite). """
 
-	# je pense que tout ne marche pas comme il faut quand on est à coté d'un "!"
+	length = len(montagne)
 
-	print("effondrement")
-
-	global compteur
-
-	# si l'on est pas a l'une des deux etremites
-	if rang not in [0, length-2] : 
+	# si on n'est pas tout a gauche, on fait un choix normal
+	if rang != 0 : 
 		gauche = Montagne[rang-1]
 		droite = Montagne[rang+1]
+		# si a gauche et ou a droite il y a un contener '!', cela veut dire
+		# qu'il y a 0 cubes
+		# a reecrire plus tard, c'est degueu
+		# pour le moment l'important c'est que sa marche
+		if gauche == '!':
+			gauche = 0
+		if droite == '!':
+			droite = 0
+
 		# si il y a une denivelation + importante d'un cote comme de l'autre
 		if gauche != droite :
 			if gauche < droite :
@@ -65,53 +70,63 @@ def effondrement(rang):
 			nbr = choice([-1,1])
 			#Montagne[rang+nbr] += 2
 			choix = rang+nbr
-	# sinon
+	# sinon, c'est forcement a droite que l'on procede a l'effondrement
 	else :
-		print("extremite")
+		print("mur")
 		choix = rang+1
-		# si on est a la fin, c'est des carres ejectes
-		#if rang != 0 :
-			#compteur += 2
+
+	# on retourne le rang de la colonne qui doit recevoir les 2 unites
+	return choix
+
+def effondrement(rang):
+
+	""" effectue l'effondrement de la colonne dont le numero
+		est specifie en parametre. Si le cube atteint un '!',
+		il est ejecte et comptabilise tel quel. """
+
+	# je pense que tout ne marche pas comme il faut quand on est a cote d'un "!"
+
+	print("effondrement")
+
+	global compteur
 
 
-	# dans tous les cas de figure, la colonne actuelle perds 2 unites
-	# n'importe quoi, pas forcement vrai
-	#Montagne[rang] -= 2
+#### TEST DE CHOIX() ####
 
-	# puis, si la colonne suivante n'est pas un "conteneur" a cubes
-	if Montagne[choix] != '!' :
-		Montagne[choix] += 2
-	# sinon, on les ejecte et on les comptabilisent
-	####
-	####
-	#### ICI ! Il faudrait sans doute rajouter que si la colonne a gauche
-	# du "!" a moins de 3 carres, sa ne s'effondre pas?
-	####
-	####
-	# par contre s'il y a un contener a cubes
-	else :
-		compteur += 2
+Montagne = [5,2,'!']
+print(Montagne)
+print(choix(0,Montagne))
 
+Montagne = [3,4,'!']
+print(Montagne)
+print(choix(1,Montagne))
 
-##########
-##########
-# TESTS  #
-##########
+Montagne = [2, 8, 3, '!']
+print(Montagne)
+print(choix(1,Montagne))
+
+Montagne = ['!', 2, 8, 2, '!']
+print(Montagne)
+print(choix(2,Montagne))
+
+Montagne = ['!', 8, '!']
+print(Montagne)
+print(choix(1,Montagne))
 
 #print("colonne instable (1) : ",colonne_instable())
-effondrement(0)
-print(Montagne)
-effondrement(1)
-print(Montagne)
-effondrement(2)
-print(Montagne)
-effondrement(3)
-print(Montagne)
-effondrement(4)
-print(Montagne)
-effondrement(5)
-print(Montagne)
-print(compteur)
+# effondrement(0)
+# print(Montagne)
+# effondrement(1)
+# print(Montagne)
+# effondrement(2)
+# print(Montagne)
+# effondrement(3)
+# print(Montagne)
+# effondrement(4)
+# print(Montagne)
+# effondrement(5)
+# print(Montagne)
+# print(compteur)
 
 #dada = 0
 #def Test():
