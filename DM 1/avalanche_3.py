@@ -15,49 +15,47 @@ Montagne = [ 8 , 5 , 4 , 3 , 2 , 1 , '!' ]
 
 compteur = 0
 
-def colonne_instable(Montagne):
+def colonne_instable(montagne):
 
 	""" retourne le numero de la premiere colonne de rochers
 		instables reperee, en partant de la gauche.
 		S'il n'y a pas de colonnes instables, renvoi False. """
 
-	length = len(Montagne)
+	length = len(montagne)
 
 	# 1) on remplace les '!' par des 0
 	for i in range(length):
-		if Montagne[i] == '!':
-			Montagne[i] = 0
+		if montagne[i] == '!':
+			montagne[i] = 0
 
-	print(Montagne)
-
-	precedente = Montagne[0]
+	precedente = montagne[0]
 
 	# si la difference de hauteur est de deux, la colonne est instable
 	for i in range(1,length):
 		# 1er cas : si la colonne actuelle est plus grande
 		# (de 2 carres ou + ) que la precedente
-		if Montagne[i]-precedente > 2 :
+		if montagne[i]-precedente > 2 :
 			return i # dans ce cas elle est instable
 		# 2eme cas : si la colonne actuelle est plus petite
 		# (de 2 carres ou + ) que la precedente
-		elif Montagne[i]-precedente < -2 : 
+		elif montagne[i]-precedente < -2 : 
 			return i-1  # dans ce cas celle d'avant est instable
 		else:
-			precedente = Montagne[i]
+			precedente = montagne[i]
 	return False # sinon on retourne False
 
-def choix(Montagne,rang):
+def choix(montagne,rang):
 
 	""" fonction qui a une colonne instables donnee, retourne l'indice
 		de la colonne qui doit gagner deux unites (celle de gauche ou
 		celle de droite). """
 
-	length = len(Montagne)
+	length = len(montagne)
 
 	# si on n'est pas tout a gauche, on fait un choix normal
 	if rang != 0 : 
-		gauche = Montagne[rang-1]
-		droite = Montagne[rang+1]
+		gauche = montagne[rang-1]
+		droite = montagne[rang+1]
 		# si a gauche et ou a droite il y a un contener '!', cela veut dire
 		# qu'il y a 0 cubes
 		# a reecrire plus tard, c'est degueu
@@ -88,7 +86,7 @@ def choix(Montagne,rang):
 	# on retourne le rang de la colonne qui doit recevoir les 2 unites
 	return choix
 
-def effondrement(Montagne,rang):
+def effondrement(montagne,rang):
 
 	""" effectue l'effondrement de la colonne dont le numero
 		est specifie en parametre. Si le cube atteint un '!',
@@ -96,7 +94,7 @@ def effondrement(Montagne,rang):
 
 	global compteur
 
-def affichage(Montagne):
+def affichage(montagne):
 
 	""" fonction qui retourne l'aspect visuel de la montagne
 		passee en parametre. """
@@ -106,22 +104,22 @@ def affichage(Montagne):
 	#affichage += '\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n'
 
 	# 1) on remplace les '!' par des -1
-	for i in range(len(Montagne)):
-		if Montagne[i] == '!':
-			Montagne[i] = -1
+	for i in range(len(montagne)):
+		if montagne[i] == '!':
+			montagne[i] = -1
 
 	# maintenant la liste n'a que des nombres/chiffres
 
 	# 2) puis on parcours du plus grand element au plus petit
-	maxi = max(Montagne)
+	maxi = max(montagne)
 	for i in reversed(range(maxi+1)):
-		for j in Montagne :
+		for j in montagne :
 			if j > i :
 				affichage += ' *'
 			else :
 				affichage += '  '
 		affichage += '\n'
-	for k in Montagne:
+	for k in montagne:
 		if k == -1:
 			affichage += ' _'
 		else :
@@ -134,26 +132,29 @@ def affichage(Montagne):
 
 i = 0
 
-#print(affichage(Montagne))
+print(affichage(Montagne))
+
+print(Montagne)
 
 # tant que la structure globale est instable
-"""while colonne_instable(Montagne) != False or i < 15 :
+while colonne_instable(Montagne) is not False :
 
 	time.sleep(1)
 
 	colonne = colonne_instable(Montagne)
-	print(colonne)
-	choix = choix(Montagne,colonne)
+	rang = choix(Montagne,colonne)
 
 	Montagne[colonne] -= 2
-	if Montagne[choix] == '!':
+	if Montagne[rang] == -1:
 		compteur += 2
 	else :
-		Montagne[choix] += 2
+		Montagne[rang] += 2
 
 	i += 1
 
-	print(affichage(Montagne))"""
+	print(affichage(Montagne))
+
+print("compteur",compteur)
 
 
 #### TEST DE COLONNE_INSTABLE() ####
@@ -163,8 +164,8 @@ i = 0
 #print(colonne_instable([ 6 , 7 , 4 , 3 , 2 , 1 , '!' ]))
 #print(['!', 2, 8, 2, '!'])
 #print(colonne_instable(['!', 2, 8, 2, '!']))
-print([ 4 , 5 , '!' ])
-print(colonne_instable([ 4 , 5 , '!' ]))
+#print([ 4 , 5 , '!' ])
+#print(colonne_instable([ 4 , 5 , '!' ]))
 #print([ '!', 2, 8, 2, '!'])
 #print(colonne_instable([ '!', 2, 8, 2, '!']))
 
