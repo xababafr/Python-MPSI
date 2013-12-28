@@ -42,11 +42,17 @@ def effondrement(rang):
 		est specifie en parametre. Si le cube atteint un '!',
 		il est ejecte et comptabilise tel quel. """
 
+	# je pense que tout ne marche pas comme il faut quand on est à coté d'un "!"
+
+	print("effondrement")
+
+	global compteur
+
 	# si l'on est pas a l'une des deux etremites
-	if rang not in [0, length-1] : 
+	if rang not in [0, length-2] : 
 		gauche = Montagne[rang-1]
 		droite = Montagne[rang+1]
-		# si il y a une denivelation + importante d'un coté comme de l'autre
+		# si il y a une denivelation + importante d'un cote comme de l'autre
 		if gauche != droite :
 			if gauche < droite :
 				#Montagne[rang-1] += 2
@@ -54,44 +60,85 @@ def effondrement(rang):
 			else :
 				#Montagne[rang+1] += 2
 				choix = rang+1
-		# ou si la dénivelation est la meme de chaque cote
+		# ou si la denivelation est la meme de chaque cote
 		else :
 			nbr = choice([-1,1])
 			#Montagne[rang+nbr] += 2
 			choix = rang+nbr
 	# sinon
 	else :
-		# si on est au debut
-		if rang == 0 :
-			choix = rang+1
+		print("extremite")
+		choix = rang+1
 		# si on est a la fin, c'est des carres ejectes
-		else :
-			compteur += 2
+		#if rang != 0 :
+			#compteur += 2
 
 
 	# dans tous les cas de figure, la colonne actuelle perds 2 unites
-	Montagne[rang] -= 2
+	# n'importe quoi, pas forcement vrai
+	#Montagne[rang] -= 2
 
 	# puis, si la colonne suivante n'est pas un "conteneur" a cubes
 	if Montagne[choix] != '!' :
-		montagne[choix] += 2
+		Montagne[choix] += 2
 	# sinon, on les ejecte et on les comptabilisent
+	####
+	####
+	#### ICI ! Il faudrait sans doute rajouter que si la colonne a gauche
+	# du "!" a moins de 3 carres, sa ne s'effondre pas?
+	####
+	####
+	# par contre s'il y a un contener a cubes
 	else :
 		compteur += 2
 
 
+##########
+##########
+# TESTS  #
+##########
+
+#print("colonne instable (1) : ",colonne_instable())
+effondrement(0)
+print(Montagne)
+effondrement(1)
+print(Montagne)
+effondrement(2)
+print(Montagne)
+effondrement(3)
+print(Montagne)
+effondrement(4)
+print(Montagne)
+effondrement(5)
+print(Montagne)
+print(compteur)
+
+#dada = 0
+#def Test():
+#	global dada
+#	dada += 1
+
+#Test()
+
+#print(dada)
+
+#print("colonne instable (2) : ",colonne_instable())
 
 
 # boucle principale
 # tant qu'il y a une colonne instable, on continue
 
-while colonne_instable() :
+#while colonne_instable() != False :
+
+	#prnt("test")
 
 	# 1/ chercher la premiere colonne instable de gauche a droite
-	colonne = colonne_instable()
+	#colonne = colonne_instable()
 
 	# 2/ la faire s'effondrer
-	effondrement(colonne)
+	#effondrement(colonne)
+
+#print("compteur : ",compteur)
 
 
 
