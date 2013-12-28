@@ -14,14 +14,17 @@ Montagne = [ 8 , 5 , 4 , 3 , 2 , 1 , '!' ]
 # compteur principal de carres ejectes
 
 compteur = 0
-length = len(Montagne)
 
-
-def colonne_instable():
+def colonne_instable(Montagne):
 
 	""" retourne le numero de la premiere colonne de rochers
 		instables reperee, en partant de la gauche.
 		S'il n'y a pas de colonnes instables, renvoi False. """
+
+	# 1) on remplace les '!' par des 0
+	for i in range(len(Montagne)):
+		if Montagne[i] == '!':
+			Montagne[i] = 0
 
 	precedente = Montagne[0]
 
@@ -37,13 +40,13 @@ def colonne_instable():
 			return i-1 # dans ce cas celle d'avant est instable
 	return False # sinon on retourne False
 
-def choix(rang,montagne):
+def choix(Montagne,rang):
 
 	""" fonction qui a une colonne instables donnee, retourne l'indice
 		de la colonne qui doit gagner deux unites (celle de gauche ou
 		celle de droite). """
 
-	length = len(montagne)
+	length = len(Montagne)
 
 	# si on n'est pas tout a gauche, on fait un choix normal
 	if rang != 0 : 
@@ -73,21 +76,17 @@ def choix(rang,montagne):
 			choix = rang+nbr
 	# sinon, c'est forcement a droite que l'on procede a l'effondrement
 	else :
-		print("mur")
+		#print("mur")
 		choix = rang+1
 
 	# on retourne le rang de la colonne qui doit recevoir les 2 unites
 	return choix
 
-def effondrement(rang):
+def effondrement(Montagne,rang):
 
 	""" effectue l'effondrement de la colonne dont le numero
 		est specifie en parametre. Si le cube atteint un '!',
 		il est ejecte et comptabilise tel quel. """
-
-	# je pense que tout ne marche pas comme il faut quand on est a cote d'un "!"
-
-	print("effondrement")
 
 	global compteur
 
@@ -123,6 +122,23 @@ def affichage(Montagne):
 			affichage += '  '
 
 	return affichage
+
+
+##### BOUCLE PRINCIPALE #####
+
+while colonne_instable(Montagne) != False :
+	
+
+
+#### TEST DE COLONNE_INSTABLE() ####
+# print([ 8 , 5 , 4 , 3 , 2 , 1 , '!' ])
+# print(colonne_instable([ 8 , 5 , 4 , 3 , 2 , 1 , '!' ]))
+# print(['!', 2, 8, 2, '!'])
+# print(colonne_instable(['!', 2, 8, 2, '!']))
+# print([ 4 , 5 , '!' ])
+# print(colonne_instable([ 4 , 5 , '!' ]))
+# print([ '!', 2, 8, 2, '!'])
+# print(colonne_instable([ '!', 2, 8, 2, '!']))
 
 #### TEST DE AFFICHAGE() ####
 
