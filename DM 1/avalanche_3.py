@@ -21,15 +21,19 @@ def colonne_instable(Montagne):
 		instables reperee, en partant de la gauche.
 		S'il n'y a pas de colonnes instables, renvoi False. """
 
+	length = len(Montagne)
+
 	# 1) on remplace les '!' par des 0
-	for i in range(len(Montagne)):
+	for i in range(length):
 		if Montagne[i] == '!':
 			Montagne[i] = 0
+
+	print(Montagne)
 
 	precedente = Montagne[0]
 
 	# si la difference de hauteur est de deux, la colonne est instable
-	for i in range(1,length-1):
+	for i in range(1,length):
 		# 1er cas : si la colonne actuelle est plus grande
 		# (de 2 carres ou + ) que la precedente
 		if Montagne[i]-precedente > 2 :
@@ -37,7 +41,9 @@ def colonne_instable(Montagne):
 		# 2eme cas : si la colonne actuelle est plus petite
 		# (de 2 carres ou + ) que la precedente
 		elif Montagne[i]-precedente < -2 : 
-			return i-1 # dans ce cas celle d'avant est instable
+			return i-1  # dans ce cas celle d'avant est instable
+		else:
+			precedente = Montagne[i]
 	return False # sinon on retourne False
 
 def choix(Montagne,rang):
@@ -126,19 +132,41 @@ def affichage(Montagne):
 
 ##### BOUCLE PRINCIPALE #####
 
-while colonne_instable(Montagne) != False :
-	
+i = 0
+
+#print(affichage(Montagne))
+
+# tant que la structure globale est instable
+"""while colonne_instable(Montagne) != False or i < 15 :
+
+	time.sleep(1)
+
+	colonne = colonne_instable(Montagne)
+	print(colonne)
+	choix = choix(Montagne,colonne)
+
+	Montagne[colonne] -= 2
+	if Montagne[choix] == '!':
+		compteur += 2
+	else :
+		Montagne[choix] += 2
+
+	i += 1
+
+	print(affichage(Montagne))"""
 
 
 #### TEST DE COLONNE_INSTABLE() ####
-# print([ 8 , 5 , 4 , 3 , 2 , 1 , '!' ])
-# print(colonne_instable([ 8 , 5 , 4 , 3 , 2 , 1 , '!' ]))
-# print(['!', 2, 8, 2, '!'])
-# print(colonne_instable(['!', 2, 8, 2, '!']))
-# print([ 4 , 5 , '!' ])
-# print(colonne_instable([ 4 , 5 , '!' ]))
-# print([ '!', 2, 8, 2, '!'])
-# print(colonne_instable([ '!', 2, 8, 2, '!']))
+#print([ 8 , 5 , 4 , 3 , 2 , 1 , '!' ])
+#print(colonne_instable([ 8 , 5 , 4 , 3 , 2 , 1 , '!' ]))
+#print([ 6 , 7 , 4 , 3 , 2 , 1 , '!' ])
+#print(colonne_instable([ 6 , 7 , 4 , 3 , 2 , 1 , '!' ]))
+#print(['!', 2, 8, 2, '!'])
+#print(colonne_instable(['!', 2, 8, 2, '!']))
+print([ 4 , 5 , '!' ])
+print(colonne_instable([ 4 , 5 , '!' ]))
+#print([ '!', 2, 8, 2, '!'])
+#print(colonne_instable([ '!', 2, 8, 2, '!']))
 
 #### TEST DE AFFICHAGE() ####
 
