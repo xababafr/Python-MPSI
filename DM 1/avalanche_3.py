@@ -6,6 +6,10 @@ import time
 #bien mieux ! il faut tout reprendre...
 
 Montagne = [ 8 , 5 , 4 , 3 , 2 , 1 , '!' ]
+#Montagne = ['!', 2, 8, 2, '!']
+#Montagne = [ 4 , 5 , '!' ]
+#Montagne = ['!', 8, '!']
+#Montagne = ['!', 0, 0, 0, 0, 0, 18, 0, 0, 0, 0, 0, '!']
 
 # une seule obligation a ce format : un '!' a la fin
 # cependant, l'avantage est de pouvoir en mettre ailleurs
@@ -24,24 +28,34 @@ def colonne_instable(montagne):
 	length = len(montagne)
 
 	# 1) on remplace les '!' par des 0
-	for i in range(length):
-		if montagne[i] == '!':
-			montagne[i] = 0
+	#for i in range(length):
+		#if montagne[i] == '!' :
+			#montagne[i] = 0
 
-	precedente = montagne[0]
+	#precedente = montagne[0]
 
 	# si la difference de hauteur est de deux, la colonne est instable
 	for i in range(1,length):
+
+		precedente = Montagne[i-1]
+		actuelle = Montagne[i]
+
+		if precedente == -1:
+			precedente = 0
+		if actuelle == -1:
+			actuelle = 0
+
 		# 1er cas : si la colonne actuelle est plus grande
 		# (de 2 carres ou + ) que la precedente
-		if montagne[i]-precedente > 2 :
+		if actuelle-precedente > 2 :
+			#print("cas 1",actuelle-precedente)
 			return i # dans ce cas elle est instable
 		# 2eme cas : si la colonne actuelle est plus petite
 		# (de 2 carres ou + ) que la precedente
-		elif montagne[i]-precedente < -2 : 
+		elif actuelle-precedente < -2 : 
+			#print("cas 2")
 			return i-1  # dans ce cas celle d'avant est instable
-		else:
-			precedente = montagne[i]
+
 	return False # sinon on retourne False
 
 def choix(montagne,rang):
