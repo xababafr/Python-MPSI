@@ -2,15 +2,19 @@ from math import *
 from random import *
 import time
 
+# La montagne est représentée par une liste
+# chaque element de la liste represente une colonne
+# de carres. Le chiffre corresponds donc a la hauteur
+# de chaque colonne.
+# Le '!', lui, represente la platforme sur laquelle 
+# s'empilent les carres ejectes. Il peut tres bien 
+# en avoir plusieurs.
+
 Montagne = [ 8 , 5 , 4 , 3 , 2 , 1 , '!' ]
 #Montagne = ['!', 2, 8, 2, '!']
 #Montagne = [ 4 , 5 , '!' ]
 #Montagne = ['!', 8, '!']
 #Montagne = ['!', 0, 0, 0, 0, 0, 18, 0, 0, 0, 0, 0, '!']
-
-# une seule obligation a ce format : un '!' a la fin
-# cependant, l'avantage est de pouvoir en mettre ailleurs
-# on suppose aussi que la montagne fait au moins une colonne d'epaiseur
 
 # compteur principal de carres ejectes
 
