@@ -2,23 +2,28 @@ from math import *
 from random import *
 import time
 
-# La montagne est représentée par une liste
+# La montagne est representee par une liste.
 # chaque element de la liste represente une colonne
 # de carres. Le chiffre corresponds donc a la hauteur
 # de chaque colonne.
-# Le '!', lui, represente la platforme sur laquelle 
-# s'empilent les carres ejectes. Il peut tres bien 
-# en avoir plusieurs.
+# Le '!' represente la surface sur laquelle 
+# s'empilent les carres ejectes. La montagne 
+# peut en comporter plusieurs
 
 Montagne = [ 8 , 5 , 4 , 3 , 2 , 1 , '!' ]
+
+# autres configurations de montagne
+
 #Montagne = ['!', 2, 8, 2, '!']
 #Montagne = [ 4 , 5 , '!' ]
 #Montagne = ['!', 8, '!']
 #Montagne = ['!', 0, 0, 0, 0, 0, 18, 0, 0, 0, 0, 0, '!']
 
 # compteur principal de carres ejectes
-
 compteur = 0
+
+
+#### FONCTIONS AUXILLIAIRES ####
 
 def colonne_instable(montagne):
 
@@ -34,6 +39,7 @@ def colonne_instable(montagne):
 		precedente = Montagne[i-1]
 		actuelle = Montagne[i]
 
+		# on considere les '!' comme des colonnes de hauteur nulle
 		if precedente == -1:
 			precedente = 0
 		if actuelle == -1:
@@ -42,15 +48,14 @@ def colonne_instable(montagne):
 		# 1er cas : si la colonne actuelle est plus grande
 		# (de 2 carres ou + ) que la precedente
 		if actuelle-precedente > 2 :
-			#print("cas 1",actuelle-precedente)
-			return i # dans ce cas elle est instable
+			return i
 		# 2eme cas : si la colonne actuelle est plus petite
 		# (de 2 carres ou + ) que la precedente
 		elif actuelle-precedente < -2 : 
-			#print("cas 2")
-			return i-1  # dans ce cas celle d'avant est instable
+			return i-1
 
 	return False # sinon on retourne False
+
 
 def choix(montagne,rang):
 
@@ -64,10 +69,8 @@ def choix(montagne,rang):
 	if rang != 0 : 
 		gauche = montagne[rang-1]
 		droite = montagne[rang+1]
-		# si a gauche et ou a droite il y a un contener '!', cela veut dire
-		# qu'il y a 0 cubes
-		# a reecrire plus tard, c'est degueu
-		# pour le moment l'important c'est que sa marche
+
+		# une fois encore, on considere les '!' comme des 0
 		if gauche == '!':
 			gauche = 0
 		if droite == '!':
@@ -90,22 +93,15 @@ def choix(montagne,rang):
 	# on retourne le rang de la colonne qui doit recevoir les 2 unites
 	return choix
 
-def effondrement(montagne,rang):
-
-	""" effectue l'effondrement de la colonne dont le numero
-		est specifie en parametre. Si le cube atteint un '!',
-		il est ejecte et comptabilise tel quel. """
-
-	global compteur
 
 def affichage(montagne):
 
-	""" fonction qui retourne l'aspect visuel de la montagne
-		passee en parametre. """
+	""" fonction qui retourne l'aspect visuel (en texte) 
+		de la montagne passee en parametre.  """
 
 	affichage =  '\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n'
 	affichage += '\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n'
-	#affichage += '\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n'
+	affichage += '\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n'
 
 	# 1) on remplace les '!' par des -1
 	for i in range(len(montagne)):
@@ -115,6 +111,7 @@ def affichage(montagne):
 	# maintenant la liste n'a que des nombres/chiffres
 
 	# 2) puis on parcours du plus grand element au plus petit
+	#    en affichant lr bloc correspondant
 	maxi = max(montagne)
 	for i in reversed(range(maxi+1)):
 		for j in montagne :
@@ -139,17 +136,21 @@ print(affichage(Montagne))
 # tant que la structure globale est instable
 while colonne_instable(Montagne) is not False :
 
+	# on pause le programme pour une seconde
 	time.sleep(1)
 
 	colonne = colonne_instable(Montagne)
 	rang = choix(Montagne,colonne)
 
+	# on procede a l'effondrement
 	Montagne[colonne] -= 2
 	if Montagne[rang] == -1:
 		compteur += 2
 	else :
 		Montagne[rang] += 2
 
+	# enfin, on affiche la structure de la montagne
 	print(affichage(Montagne))
 
-print("compteur",compteur)
+# et pour conclure, on affiche le nombre de carres ejectes
+print("nombre de carres ejectes : ",compteur)
