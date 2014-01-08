@@ -2,28 +2,47 @@ from math import *
 from random import *
 import time
 
-# La montagne est representee par une liste.
-# chaque element de la liste represente une colonne
-# de carres. Le chiffre corresponds donc a la hauteur
-# de chaque colonne.
-# Le '!' represente la surface sur laquelle 
-# s'empilent les carres ejectes. La montagne 
-# peut en comporter plusieurs
+""" 
+La montagne est representee par une liste.
+ Chaque element de la liste represente une colonne
+ de carres. Le chiffre corresponds donc a la hauteur
+ de chaque colonne.
+ Le '!' represente la surface sur laquelle 
+ s'empilent les carres ejectes. La montagne 
+ peut d'ailleurs en comporter plusieurs.
+La montagne initiale est supposee stable, puis
+l'utilisateur doit rentrer a l'execution du programme
+une liste (de la taille de la montagne), chaque valeur
+correspondant au nombre de cube a ajouter pour la colonne
+concernee.
+Donc, [1,1,1,1] rajoutera un cube de hauteur a une montagne
+de 4 colonnes de longueur.
+Puis, le programme procede a l'avalanche, si les chutes de neige
+ont rendu la montagne instable. 
+"""
 
-Montagne = [ 8 , 5 , 4 , 3 , 2 , 1 , '!' ]
-
-# autres configurations de montagne
-
-#Montagne = ['!', 2, 8, 2, '!']
-#Montagne = [ 4 , 5 , '!' ]
-#Montagne = ['!', 8, '!']
-#Montagne = ['!', 0, 0, 0, 0, 0, 18, 0, 0, 0, 0, 0, '!']
+Montagne = [ 6 , 5 , 4 , 3 , 2 , 1 , '!' ]
 
 # compteur principal de carres ejectes
 compteur = 0
 
 
 #### FONCTIONS AUXILLIAIRES ####
+
+def chute(montagne,chutes):
+
+	""" retourne la Montagne, apres avoir effectue a l'enneigement
+		correspondant aux valeurs de la liste chutes. """
+
+	# on ne procede que si c'est evidemment possible
+	if len(chutes) != len(montagne)-1:
+		return False
+	else:
+		# on rajoute les elements de la liste chutes a la montagne
+		for i in range(len(montagne)-1):
+			montagne[i] += chutes[i]
+		return montagne
+
 
 def colonne_instable(montagne):
 
@@ -99,9 +118,7 @@ def affichage(montagne):
 	""" fonction qui retourne l'aspect visuel (en texte) 
 		de la montagne passee en parametre.  """
 
-	affichage =  '\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n'
-	affichage += '\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n'
-	affichage += '\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n'
+	affichage = ''
 
 	# 1) on remplace les '!' par des -1
 	for i in range(len(montagne)):
@@ -129,9 +146,47 @@ def affichage(montagne):
 	return affichage
 
 
-##### BOUCLE PRINCIPALE #####
+def visuel_neige(chutes,marge):
+
+	""" fonction qui retourne l'aspect visuel de la chute de neige """
+
+	affichage = ''
+	maxi = max(chutes)+marge-1
+	for i in range(maxi+1):
+		for j in chutes:
+			if j > i:
+				affichage += ' *'
+			else:
+				affichage += '  '
+		affichage += '\n'
+
+	return affichage
+
 
 print(affichage(Montagne))
+
+# un gros saut de lignes pour donner l'illusion du mouvement
+lignes = '\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n'
+lignes += '\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n'
+lignes += '\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n'
+
+chutes = input("rentrez l'importance de la chute de neige [] : ")
+
+# on affiche la neige au dessu de la montagne
+# mais avec une marge de + en + faible
+# ( la neige tombe donc se rapproche )
+for i in reversed(range(4)):
+	neige = visuel_neige(chutes,i)
+	print(lignes+neige+affichage(Montagne))
+	time.sleep(1)
+
+# puis on prends la valeur de la montagne apres la chute
+Montagne = chute(Montagne, chutes)
+print(lignes+affichage(Montagne))
+
+# et on entre dans la : 
+
+##### BOUCLE PRINCIPALE (avalanche) #####
 
 # tant que la structure globale est instable
 while colonne_instable(Montagne) is not False :
@@ -150,7 +205,7 @@ while colonne_instable(Montagne) is not False :
 		Montagne[rang] += 2
 
 	# enfin, on affiche la structure de la montagne
-	print(affichage(Montagne))
+	print(lignes+affichage(Montagne))
 
 # et pour conclure, on affiche le nombre de carres ejectes
 print("nombre de carres ejectes : ",compteur)
